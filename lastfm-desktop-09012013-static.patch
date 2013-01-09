@@ -1,0 +1,35 @@
+diff -urN lastfm-desktop-09012013-orig/lib/listener/listener.pro lastfm-desktop-09012013-patched-static/lib/listener/listener.pro
+--- lastfm-desktop-09012013-orig/lib/listener/listener.pro	2013-01-08 09:27:16.000000000 +1100
++++ lastfm-desktop-09012013-patched-static/lib/listener/listener.pro	2013-01-09 23:00:13.905584687 +1100
+@@ -1,7 +1,7 @@
+ TARGET = listener
+ TEMPLATE = lib
+ QT = core xml network
+-CONFIG += unicorn logger
++CONFIG += unicorn logger static
+ 
+ # basically not easy to support on other platforms, but feel free to fork
+ unix:!mac {
+diff -urN lastfm-desktop-09012013-orig/lib/logger/logger.pro lastfm-desktop-09012013-patched-static/lib/logger/logger.pro
+--- lastfm-desktop-09012013-orig/lib/logger/logger.pro	2013-01-08 09:27:16.000000000 +1100
++++ lastfm-desktop-09012013-patched-static/lib/logger/logger.pro	2013-01-09 23:00:06.214569859 +1100
+@@ -1,7 +1,7 @@
+ TARGET = logger
+ TEMPLATE = lib
+ QT -= gui
+-CONFIG += dll
++CONFIG += dll static
+ 
+ include( ../../admin/include.qmake )
+ 
+diff -urN lastfm-desktop-09012013-orig/lib/unicorn/unicorn.pro lastfm-desktop-09012013-patched-static/lib/unicorn/unicorn.pro
+--- lastfm-desktop-09012013-orig/lib/unicorn/unicorn.pro	2013-01-08 09:27:16.000000000 +1100
++++ lastfm-desktop-09012013-patched-static/lib/unicorn/unicorn.pro	2013-01-09 23:00:22.614101479 +1100
+@@ -1,6 +1,6 @@
+ TARGET = unicorn
+ TEMPLATE = lib
+-CONFIG += dll lastfm sparkle growl logger
++CONFIG += dll lastfm sparkle growl logger static
+ QT = core gui xml network
+ include( ../../admin/include.qmake )
+ DEFINES += _UNICORN_DLLEXPORT LASTFM_COLLAPSE_NAMESPACE

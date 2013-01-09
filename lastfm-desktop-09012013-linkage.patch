@@ -1,0 +1,12 @@
+diff -urN lastfm-desktop-09012013-orig/app/client/client.pro lastfm-desktop-09012013-patched-linkage/app/client/client.pro
+--- lastfm-desktop-09012013-orig/app/client/client.pro	2013-01-08 09:27:16.000000000 +1100
++++ lastfm-desktop-09012013-patched-linkage/app/client/client.pro	2013-01-09 22:53:12.818776300 +1100
+@@ -19,7 +19,7 @@
+ HEADERS -= LegacyTuner.h
+ 
+ macx:ICON = ./audioscrobbler.icns
+-!win32:LIBS += -lz
++!win32:LIBS += -lz -lavcodec -lavutil
+ win32:LIBS += shell32.lib User32.lib
+ 
+ RC_FILE = audioscrobbler.rc

@@ -1,0 +1,110 @@
+diff -urN lastfm-desktop-09012013-orig/app/client/MediaDevices/DeviceScrobbler.cpp lastfm-desktop-09012013-patched-api/app/client/MediaDevices/DeviceScrobbler.cpp
+--- lastfm-desktop-09012013-orig/app/client/MediaDevices/DeviceScrobbler.cpp	2013-01-08 09:27:16.000000000 +1100
++++ lastfm-desktop-09012013-patched-api/app/client/MediaDevices/DeviceScrobbler.cpp	2013-01-09 22:37:21.000000000 +1100
+@@ -359,10 +359,10 @@
+         }
+         else
+         {
+-            unicorn::Session* currentSession = qobject_cast<unicorn::Application*>( qApp )->currentSession();
++            unicorn::Session* currentSession = &qobject_cast<unicorn::Application*>( qApp )->currentSession();
+             if ( currentSession )
+             {
+-                IpodDeviceLinux::deleteDeviceHistory( currentSession->userInfo().name(), iPod->deviceId() );
++                IpodDeviceLinux::deleteDeviceHistory( currentSession->user().name(), iPod->deviceId() );
+             }
+         }
+     }
+diff -urN lastfm-desktop-09012013-orig/app/client/MediaDevices/IpodDevice_linux.cpp lastfm-desktop-09012013-patched-api/app/client/MediaDevices/IpodDevice_linux.cpp
+--- lastfm-desktop-09012013-orig/app/client/MediaDevices/IpodDevice_linux.cpp	2013-01-08 09:27:16.000000000 +1100
++++ lastfm-desktop-09012013-patched-api/app/client/MediaDevices/IpodDevice_linux.cpp	2013-01-09 22:45:36.000000000 +1100
+@@ -34,7 +34,7 @@
+ extern "C"
+ {
+     #include <gpod/itdb.h>
+-    #include <glib/glist.h>
++    #include <glib.h>
+ }
+ 
+ IpodTracksFetcher::IpodTracksFetcher( Itdb_iTunesDB *itdb, QSqlDatabase scrobblesdb,
+@@ -322,7 +322,7 @@
+     audioscrobbler::Application* app = qobject_cast<audioscrobbler::Application* >( qApp );
+     if ( app )
+     {
+-        return app->currentSession().userInfo().name() + "_" + m_deviceId;
++        return app->currentSession().user().name() + "_" + m_deviceId;
+     }
+     return QString();
+ }
+diff -urN lastfm-desktop-09012013-orig/app/client/Widgets/ScrobblesListWidget.cpp lastfm-desktop-09012013-patched-api/app/client/Widgets/ScrobblesListWidget.cpp
+--- lastfm-desktop-09012013-orig/app/client/Widgets/ScrobblesListWidget.cpp	2013-01-08 09:27:16.000000000 +1100
++++ lastfm-desktop-09012013-patched-api/app/client/Widgets/ScrobblesListWidget.cpp	2013-01-09 22:43:24.000000000 +1100
+@@ -511,43 +511,39 @@
+ 
+     for ( int i = 0 ; i < tracks.count() ; ++i )
+     {
+-        if ( tracks[i].scrobbleError() != Track::Invalid  )
++        int pos = -1;
++
++        for ( int j = 0 ; j < count() ; ++j )
+         {
+-            // the track was not filtered client side for being invalid
+-            int pos = -1;
++            TrackWidget* trackWidget = qobject_cast<TrackWidget*>( itemWidget( item( j ) ) );
+ 
+-            for ( int j = 0 ; j < count() ; ++j )
++            if ( trackWidget
++                    && !static_cast<ScrobblesListWidgetItem*>( item( j ) )->isNowPlaying()
++                    && tracks[i].timestamp().toTime_t() == trackWidget->track().timestamp().toTime_t() )
+             {
+-                TrackWidget* trackWidget = qobject_cast<TrackWidget*>( itemWidget( item( j ) ) );
+-
+-                if ( trackWidget
+-                     && !static_cast<ScrobblesListWidgetItem*>( item( j ) )->isNowPlaying()
+-                     && tracks[i].timestamp().toTime_t() == trackWidget->track().timestamp().toTime_t() )
+-                {
+-                    pos = j;
+-                    break;
+-                }
++                pos = j;
++                break;
+             }
++        }
+ 
+-            if ( pos == -1 )
+-            {
+-                // the track was not in the list
+-                ScrobblesListWidgetItem* item = new ScrobblesListWidgetItem( this );
+-                Track track = tracks[i];
+-                TrackWidget* trackWidget = new TrackWidget( track, this );
+-                setItemWidget( item, trackWidget );
+-                item->setSizeHint( trackWidget->sizeHint() );
++        if ( pos == -1 )
++        {
++            // the track was not in the list
++            ScrobblesListWidgetItem* item = new ScrobblesListWidgetItem( this );
++            Track track = tracks[i];
++            TrackWidget* trackWidget = new TrackWidget( track, this );
++            setItemWidget( item, trackWidget );
++            item->setSizeHint( trackWidget->sizeHint() );
+ 
+-                connect( trackWidget, SIGNAL(removed()), SLOT(onTrackWidgetRemoved()));
+-                connect( trackWidget, SIGNAL(clicked(TrackWidget&)), SLOT(onItemClicked(TrackWidget&)) );
++            connect( trackWidget, SIGNAL(removed()), SLOT(onTrackWidgetRemoved()));
++            connect( trackWidget, SIGNAL(clicked(TrackWidget&)), SLOT(onItemClicked(TrackWidget&)) );
+ 
+-                connect( track.signalProxy(), SIGNAL(loveToggled(bool)), SLOT(write()));
+-                connect( track.signalProxy(), SIGNAL(scrobbleStatusChanged(short)), SLOT(write()));
+-            }
+-            else
+-            {
+-                // update the track in the list with the new infos!
+-            }
++            connect( track.signalProxy(), SIGNAL(loveToggled(bool)), SLOT(write()));
++            connect( track.signalProxy(), SIGNAL(scrobbleStatusChanged(short)), SLOT(write()));
++        }
++        else
++        {
++            // update the track in the list with the new infos!
+         }
+     }
+ 

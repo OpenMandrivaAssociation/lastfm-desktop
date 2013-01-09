@@ -1,0 +1,12 @@
+diff -urN lastfm-desktop-09012013-orig/lib/unicorn/UnicornApplication.cpp lastfm-desktop-09012013-datapath/lib/unicorn/UnicornApplication.cpp
+--- lastfm-desktop-09012013-orig/lib/unicorn/UnicornApplication.cpp	2013-01-08 09:27:16.000000000 +1100
++++ lastfm-desktop-09012013-datapath/lib/unicorn/UnicornApplication.cpp	2013-01-10 02:07:38.000000000 +1100
+@@ -224,7 +224,7 @@
+ #ifdef Q_WS_MAC
+     QDir const d = lastfm::dir::bundle().filePath( "Contents/Resources/qm" );
+ #else
+-    QDir const d = qApp->applicationDirPath() + "/i18n";
++    QDir const d = QDir("/usr/share/lastfm-desktop/i18n");
+ #endif
+ 
+     //TODO need a unicorn/core/etc. translation, plus policy of no translations elsewhere or something!
