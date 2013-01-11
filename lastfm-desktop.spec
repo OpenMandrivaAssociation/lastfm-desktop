@@ -1,8 +1,9 @@
 %define		git	09012013
 
 Name:		lastfm-desktop
-Version:	0
-Release:	0.%{git}.1
+# app/client/client.pro:VERSION
+Version:	2.1.28
+Release:	0.%{git}.2
 Summary:	The official Last.fm desktop application suite
 Group:		Sound
 License:	GPLv3+
@@ -15,6 +16,7 @@ Patch1:		lastfm-desktop-09012013-linkage.patch
 Patch2:		lastfm-desktop-09012013-static.patch
 Patch3:		lastfm-desktop-09012013-datapath.patch
 Patch4:		lastfm-desktop-09012013-i18n.patch
+Patch5:		lastfm-desktop-09012013-css.patch
 BuildRequires:	imagemagick
 BuildRequires:	ffmpeg-devel
 BuildRequires:	liblastfm-devel
@@ -33,6 +35,7 @@ The official Last.fm desktop application suite.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 %qmake_qt4
@@ -64,6 +67,7 @@ EOF
 
 mkdir -p %{buildroot}%{_datadir}/%{name}/i18n
 cp i18n/*.qm %{buildroot}%{_datadir}/%{name}/i18n/
+cp app/client/Last.fm\ Scrobbler.css %{buildroot}%{_datadir}/%{name}/lastfm-desktop.css
 
 %files
 %doc COPYING README.md

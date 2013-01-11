@@ -1,0 +1,39 @@
+diff -urN lastfm-desktop-09012013-orig/app/client/MainWindow.cpp lastfm-desktop-09012013-patched-css/app/client/MainWindow.cpp
+--- lastfm-desktop-09012013-orig/app/client/MainWindow.cpp	2013-01-08 09:27:16.000000000 +1100
++++ lastfm-desktop-09012013-patched-css/app/client/MainWindow.cpp	2013-01-11 12:43:25.000000000 +1100
+@@ -160,6 +160,7 @@
+ 
+     //for some reason some of the stylesheet is not being applied properly unless reloaded
+     //here. StyleSheets see very flaky to me. :s
++    aApp->setStyleSheet("/usr/share/lastfm-desktop/lastfm-desktop.css");
+     aApp->refreshStyleSheet();
+ 
+     setMinimumWidth( 540 );
+diff -urN lastfm-desktop-09012013-orig/lib/unicorn/UnicornApplication.cpp lastfm-desktop-09012013-patched-css/lib/unicorn/UnicornApplication.cpp
+--- lastfm-desktop-09012013-orig/lib/unicorn/UnicornApplication.cpp	2013-01-08 09:27:16.000000000 +1100
++++ lastfm-desktop-09012013-patched-css/lib/unicorn/UnicornApplication.cpp	2013-01-11 12:47:42.385012330 +1100
+@@ -349,22 +349,8 @@
+ void
+ unicorn::Application::refreshStyleSheet()
+ {
+-    m_styleSheet.clear();
+-
+-    if ( m_cssFileName.isNull() )
+-    {
+-        // This is the first time we are loading the stylesheet
+-
+-        if( !styleSheet().isEmpty() ) {
+-            m_cssFileName = QDir::currentPath() + QUrl( styleSheet() ).toLocalFile();
+-            m_cssDir = QFileInfo( m_cssFileName ).path();
+-        }
+-
+-        if( styleSheet().isEmpty()) {
+-            m_cssFileName = applicationDirPath() + CSS_PATH + applicationName() + ".css";
+-            m_cssDir = applicationDirPath() + CSS_PATH;
+-        }
+-    }
++    m_cssFileName = "/usr/share/lastfm-desktop/lastfm-desktop.css";
++    m_cssDir = "/usr/share/lastfm-desktop/";
+ 
+     if ( !m_cssFileName.isNull() )
+     {
