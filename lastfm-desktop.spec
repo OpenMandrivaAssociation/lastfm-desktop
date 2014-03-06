@@ -18,6 +18,7 @@ BuildRequires:	liblastfm-devel
 BuildRequires:	qt4-devel
 BuildRequires:	pkgconfig(libgpod-1.0)
 BuildRequires:	pkgconfig(phonon)
+BuildRequires:	pkgconfig(QtWebKit)
 BuildRequires:	pkgconfig(zlib)
 
 %description
