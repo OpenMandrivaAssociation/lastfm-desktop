@@ -1,0 +1,12 @@
+diff -urN lastfm-desktop-2.1.36/app/client/Services/RadioService/RadioService.cpp lastfm-desktop-2.1.36-patched/app/client/Services/RadioService/RadioService.cpp
+--- lastfm-desktop-2.1.36/app/client/Services/RadioService/RadioService.cpp	2013-09-03 23:19:10.000000000 +1100
++++ lastfm-desktop-2.1.36-patched/app/client/Services/RadioService/RadioService.cpp	2014-03-06 20:52:34.875819730 +1100
+@@ -307,7 +307,7 @@
+ void
+ RadioService::onPhononStateChanged( Phonon::State newstate, Phonon::State oldstate )
+ {
+-    qDebug() << oldstate << " -> " << newstate;
++//    qDebug() << oldstate << " -> " << newstate;
+     if (m_mediaObject == 0) {
+         qDebug() << "m_mediaObject is null!";
+         return;

@@ -1,0 +1,14 @@
+diff -urN lastfm-desktop-2.1.36/app/fingerprinter/LAV_Source.cpp lastfm-desktop-2.1.36-patched/app/fingerprinter/LAV_Source.cpp
+--- lastfm-desktop-2.1.36/app/fingerprinter/LAV_Source.cpp	2013-09-03 23:19:10.000000000 +1100
++++ lastfm-desktop-2.1.36-patched/app/fingerprinter/LAV_Source.cpp	2014-03-06 20:56:10.380391904 +1100
+@@ -36,6 +36,10 @@
+ #endif
+ }
+ 
++#ifndef AVCODEC_MAX_AUDIO_FRAME_SIZE
++#define AVCODEC_MAX_AUDIO_FRAME_SIZE 192000 // 1 second of 48khz 32bit audio
++#endif
++
+ #include <iostream>
+ #include <limits>
+ #include <stdexcept>
