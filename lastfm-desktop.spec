@@ -3,7 +3,7 @@
 Summary:	The official Last.fm desktop application suite
 Name:		lastfm-desktop
 Version:	2.1.36
-Release:	1
+Release:	2
 License:	GPLv3+
 Group:		Sound
 Url:		http://github.com/lastfm/lastfm-desktop
