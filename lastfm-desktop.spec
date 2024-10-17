@@ -6,7 +6,7 @@ Version:	2.1.36
 Release:	2
 License:	GPLv3+
 Group:		Sound
-Url:		http://github.com/lastfm/lastfm-desktop
+Url:		https://github.com/lastfm/lastfm-desktop
 Source0:	https://github.com/lastfm/lastfm-desktop/archive/%{name}-%{version}.tar.gz
 Source1:	%{name}.png
 Patch0:		lastfm-desktop-2.1.36-phonon-4.7.patch
