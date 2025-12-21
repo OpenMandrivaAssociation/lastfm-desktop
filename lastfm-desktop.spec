@@ -12,6 +12,7 @@ Source1:	%{name}.png
 Patch0:		lastfm-desktop-2.1.36-phonon-4.7.patch
 Patch1:		lastfm-desktop-09012013-linkage.patch
 Patch2:		lastfm-desktop-2.1.36-ffmpeg2.patch
+BuildRequires:	make
 BuildRequires:	imagemagick
 BuildRequires:	ffmpeg-devel
 BuildRequires:	liblastfm-devel
